@@ -1,0 +1,66 @@
+<script type="text/javascript" src="<?php echo $this->asset() ?>js/validate.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$("form").kiemtra([
+            {
+                'name':'email',
+                'email':true
+            }
+        ]);
+	});
+</script>
+<div id="boxsendmail" <?php if($this->message!=null) echo 'class="message"' ?>>
+    <header>
+        <i class="fa fa-question-circle"></i> QUYÊN MẬT KHẨU
+    </header>
+    <article>
+    	<?php if($this->message!=null){ ?>
+    	<section class="text-center message-text">
+    		<?php echo $this->message ?>
+    	</section>
+    	<?php } ?>
+    	<form method="post" action="">
+	    	<section class="clearfix">
+	    		<div class="pull-left label">Email:</div>
+	    		<div class="pull-left">
+	    			<div class="inner-addon left-addon">
+	    				<i class="fa fa-envelope"></i> 
+	    				<input type="text" name="email" class="input" />
+	    			</div>
+	    		</div> 
+	    	</section>
+	    	
+	    	<section class="clearfix">
+	    		<div style="float:left;margin-top:25px">
+	    			<a href="<?php echo $this->baseUrl('login') ?>" class="prev" style="color:#777"><i class="fa fa-arrow-circle-left"></i></a>
+	    		</div>
+	    		<div class="clearfix text-right group-button" style="float:right">
+	    			<input type="submit" class="btn btn-sm btn-success" value="Đồng Ý" />
+	    			<input type="reset" class="btn btn-sm btn-default" value="Nhập Lại" />
+	    		</div> 
+	    	</section>
+    	</form>
+    </article>
+    
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		resize();
+		$(window).resize(function(){
+			resize();
+		});
+	});	
+	function resize(){
+		var winwidth=$(window).width();
+		if(winwidth<390){
+			$("#boxsendmail").addClass("mobile");
+		}else{
+			$("#boxsendmail").removeClass("mobile");
+		}
+	}
+</script>
+<style type="text/css">
+	.prev:hover{
+		color:#000 !important;
+	}
+</style>

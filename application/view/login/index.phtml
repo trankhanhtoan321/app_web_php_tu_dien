@@ -1,0 +1,82 @@
+<script type="text/javascript" src="<?php echo $this->asset() ?>js/validate.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$("form").kiemtra([
+            {
+                'name':'username',
+                'email':true
+            },
+            {
+                'name':'password',
+                'trong':true
+            }
+        ]);
+	});
+</script>
+<div id="boxlogin" <?php if($this->message!=null) echo 'class="message"' ?>>
+    <header>
+        <i class="fa fa-lock"></i> ĐĂNG NHẬP
+    </header>
+    <article>
+    	<?php if($this->message!=null){ ?>
+    	<section class="text-center message-text">
+    		<?php echo $this->message ?>
+    	</section>
+    	<?php } ?>
+    	<form method="post" action="">
+	    	<section class="clearfix">
+	    		<div class="pull-left label">Email:</div>
+	    		<div class="pull-left">
+	    			<div class="inner-addon left-addon">
+	    				<i class="fa fa-envelope"></i> 
+	    				<input type="text" name="username" class="input" />
+	    			</div>
+	    		</div> 
+	    	</section>
+	    	<section class="clearfix">
+	    		<div class="pull-left label">Password:</div>
+	    		<div class="pull-left">
+	    			<div class="inner-addon left-addon">
+	    				<i class="fa fa-key"></i> 
+	    				<input type="password" name="password" class="input" />
+	    			</div>
+	    		</div> 
+	    	</section>
+	    	<section>
+	    		<div class="clearfix text-right group-button" style="float:right">
+	    			<div class="inner-addon left-addon pull-left btn-addon">
+	    				<i class="fa fa-unlock"></i>
+	    				<input type="submit" class="btn btn-sm btn-default" value="Đăng Nhập" />
+	    			</div>
+	    			<div class="inner-addon left-addon pull-left btn-addon">
+	    				<i class="fa fa-refresh"></i>
+	    				<input type="reset" class="btn btn-sm btn-default" value="Nhập Lại" />
+	    			</div>
+	    		</div> 
+	    	</section>
+	    	<div style="clear:both"></div>
+	    	<section>
+	    		<div class="text-right">
+	    			<a href="<?php echo $this->baseUrl('login/quyenmk') ?>" style="color:#777"><i class="fa fa-question-circle"></i> Bạn quyên mật khẩu?</a>
+	    		</div> 
+	    	</section>
+    	</form>
+    </article>
+    
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		resize();
+		$(window).resize(function(){
+			resize();
+		});
+	});	
+	function resize(){
+		var winwidth=$(window).width();
+		if(winwidth<390){
+			$("#boxlogin").addClass("mobile");
+		}else{
+			$("#boxlogin").removeClass("mobile");
+		}
+	}
+</script>

@@ -1,0 +1,130 @@
+<script type="text/javascript" src="<?php echo $this->asset() ?>js/validate.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $("#navbar_toggle ul li:eq(4)").addClass("active");
+
+        $("form").kiemtra([
+            {
+                'name':'HOTEN',
+                'string':true
+            },
+            {
+                'name':'EMAIL',
+                'email':true
+            },
+            {
+                'name':'DIENTHOAI',
+                'sodt':true
+            },
+            {
+                'name':'AVATAR',
+                'file':true,
+                'typefile':'image',
+                'notnull':false
+            }
+        ]);
+    });
+</script>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Sửa Nhân Viên
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i> <a href="<?php echo $this->baseUrl() ?>">Trang Chủ</a>
+            </li>
+            <li>
+                <i class="fa fa-user"></i> <a href="<?php echo $this->baseUrl() ?>nhan-vien">Nhân Viên</a>
+            </li>
+            <li>
+                <i class="fa fa-edit"></i> Sửa Nhân Viên
+            </li>
+            <li class="active">
+                <i class="fa fa-bookmark"></i> <?php echo $this->data['HOTEN'] ?>
+            </li>
+        </ol>
+    </div>
+    <div id="main-content">
+        <?php if($this->message!=null){ ?>
+            <div class="message">
+                <?php echo $this->message ?>
+            </div>
+        <?php } ?>
+        <form method="post" action="" enctype="multipart/form-data">
+            <div class="row as-row-table">
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Họ Tên: 
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <span class="red notnull">*</span>
+                    <input type="text" class="form-control input-small" name="HOTEN" value="<?php echo ($this->data!=null)?$this->data['HOTEN']:'' ?>" />
+                </div>
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Giới Tính:
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <span class="red notnull">*</span>
+                    <label>Nam: <input type="radio" <?php if($this->data['GIOITINH']==1) echo 'checked="checked"'; ?> value="1" name="GIOITINH-int" /></label>
+                    <label style="padding-left:20px">Nữ: <input type="radio" <?php if($this->data['GIOITINH']==0) echo 'checked="checked"'; ?> value="0" name="GIOITINH-int" /></label>
+                </div>
+            </div> 
+            <div class="row as-row-table">
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Điện Thoại: 
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <span class="red notnull">*</span>
+                    <input type="text" class="form-control input-small" name="DIENTHOAI"  value="<?php echo ($this->data!=null)?$this->data['DIENTHOAI']:'' ?>" />
+                </div>
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Địa Chỉ:
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <span class="red notnull nottext"></span>
+                    <input type="text" class="form-control input-small" name="DIACHI"  value="<?php echo ($this->data!=null)?$this->data['DIACHI']:'' ?>" />
+                </div>
+            </div> 
+            <div class="row as-row-table">
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Email: 
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <span class="red notnull">*</span>
+                    <input type="email" class="form-control input-small" name="EMAIL" value="<?php echo ($this->data!=null)?$this->data['EMAIL']:'' ?>" />
+                </div>
+               <div class="col-lg-2 col-md-2 margin-top-row">
+                    Cấp Độ: 
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <span class="red notnull">*</span>
+                    <label>Nhân Viên: <input type="radio" <?php if($this->data['LAADMIN']==0) echo 'checked="checked"'; ?> value="0" name="LAADMIN-int" /></label>
+                    <label style="padding-left:20px">Admin: <input <?php if($this->data['LAADMIN']==1) echo 'checked="checked"'; ?> type="radio" value="1" name="LAADMIN-int" /></label>
+                </div>
+            </div> 
+            <div class="row as-row-table">
+                
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Avatar: 
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <span class="red notnull nottext"></span>
+                    <input type="file" name="AVATAR" />
+                </div>
+            </div>
+            
+            <div class="row as-row-table text-right">
+                <div class="col-lg-12 col-md-12">
+                <input type="submit" class="btn btn-success btn-sm" value="Lưu Lại" />
+                <input type="reset" class="btn btn-default btn-sm" value="Nhập Lại"/>
+                </div>
+            </div>
+            <input type="hidden" name='ma' value="<?php echo $this->data['MANV'] ?>" />
+        </form>
+    </div>
+</div>
+<style type="text/css">
+    label{
+        font-weight: normal !important;
+    }
+</style>

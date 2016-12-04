@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <noscript>
+        <meta http-equiv="refresh" content="0; URL=<?php echo $this->baseUrl('nojavascript') ?>" />
+    </noscript>
+    <?php $this->title() ?>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="<?php echo $this->asset() ?>css/csslogin.css" rel="stylesheet">
+   
+    <link href="<?php echo $this->asset() ?>css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="<?php echo $this->asset() ?>font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+     <!-- jQuery -->
+    <script src="<?php echo $this->asset() ?>js/jquery.js"></script>
+
+    
+
+    <!--[if lt IE 9]>
+        <script src="<?php echo $this->asset() ?>js/html5.js"></script>
+    <![endif]-->
+    <!-- Bootstrap Core JavaScript -->
+    <script src="<?php echo $this->asset() ?>js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" id="navtop" role="navigation">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <a class="navbar-brand" href="<?php echo $this->baseUrl() ?>">Admin Control Panel</a>
+                    </div>
+                   
+                </div>
+        </nav>
+        <div id="page-wrapper" class="clearfix">
+            <?php echo $this->content() ?>
+        </div>
+            <!-- /.navbar-collapse -->
+    </div>
+</body>
+</html>

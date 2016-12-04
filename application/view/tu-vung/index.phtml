@@ -1,0 +1,579 @@
+<script type="text/javascript">
+    $(function(){
+        $("#navbar_toggle ul li:eq(1)").addClass("active");
+    });
+</script>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Danh Sách Từ Vựng   
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i> <a href="<?php echo $this->baseUrl() ?>">Trang Chủ</a>
+            </li>
+            <li>
+                <i class="fa fa-book"></i> Từ Vựng
+            </li>
+        </ol>
+    </div>
+    <div id="main-content">
+        <?php if($this->message!=null){ ?>
+            <div class="message">
+                <?php echo $this->message ?>
+            </div>
+        <?php } ?>
+        <div class="row" style="margin-left:-1.5%">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="margin-bottom:5px">
+                <div class="group-button clearfix">
+                    <a href="<?php echo $this->baseUrl() ?>tu-vung/them" class="pull-left btn btn-primary btn-sm">Thêm mới</a>
+                    <div class="btn btn-primary btn-sm btn-count disabled" style="margin-left:5px" id="xoa">Xóa <i></i></div>
+                   <div class="btn btn-primary btn-sm btn-count disabled" style="margin-left:5px" id="bat_tat">Bật/Tắt Kích hoạt <i></i></div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 col-xs-marg text-right clearfix">
+               <form method="get" action="" class="pull-right">
+                    <select class="sfilter" name="s">
+                        <option value="0">-Sắp xếp-</option>
+                        <option value="1">Mới nhất</option>
+                        <option value="2">Cũ nhất</option>
+                        <option value="3">Nghĩa hán tự</option>
+                    </select>
+                </form>
+                <form method="get" action="" class="pull-right">
+                <select class="sfilter" name="f">
+                        <option value="0">- Lọc dữ liệu -</option>
+                        <option value="1">Từ của bạn</option>
+                        <option value="2">Đã kích hoạt</option>
+                        <option value="3">Chưa kích hoạt</option>
+                        <option value="4">Chưa có audio</option>
+                        <option value="5">Chưa có nghĩa</option>
+                    </select>
+                </form>
+                <form method="get" action="" class="pull-right">
+                    <div class="frmsearch clearfix">
+                        <input title="tên sản phẩm hoặc tên người gửi hoặc ngày gửi" type="text" class="textboxsearch" value="<?php if(isset($_GET['q'])) echo $_GET['q']; ?>"  placeholder="Nhập nội dung tìm kiếm..." name="q" />
+                        <input type="submit" class="buttonsearch" value="" />
+                    </div>
+                    <?php if(isset($_GET["sort"])){ ?>
+                        <input type="hidden" name="sort" value="<?php echo $_GET["sort"] ?>" />
+                    <?php } ?>
+                </form>
+                 
+                
+            </div>
+        </div>
+        <br />
+        <div class="table-responsive"> 
+            <form method="post" action="" id="frm_table">
+                <table class="table table-bordered table-hover table-vm">
+                    <tr>
+                        <th><input id="checkAll" type="checkbox" /></th>
+                        <th>Romanji</th>
+                        <th>Hán Tự</th>
+                        <th>Nghĩa Hán Tự</th>
+                        <th>Nghĩa</th>
+                        <th>Update</th>
+                        <th>Audio</th>
+                        <th width="15%">Ghi Chú</th>
+                        <th width="10%">NV Nhập</th>
+                        <th>Active</th>
+                        <th>Sửa</th>
+                    </tr>
+                    <?php
+                    $now=getdate();
+                    $second = strtotime($now["year"].'/'.$now["mon"].'/'.$now["mday"]);  
+                    $manv=$this->layout->userinfo['MANV'];
+                    $laadmin=$this->layout->userinfo['LAADMIN'];
+                    ?>
+                    <?php foreach($this->data as $item){ ?>
+                        <tr>
+                            <td align="center">
+                                <?php if($item['NV_THEM']==$manv || $laadmin==1){ ?>
+                                <input class="checkboxitem" type="checkbox" name="item[]" value="<?php echo $item['MATU'].'~'.$item['NGHIA_HANTU'].'~'.$item['AUDIO'] ?>" />
+                               
+                                <?php }else{ ?>
+                                    <input type="checkbox" disabled="disabled" />
+                                <?php } ?>
+                            </td>
+                            <td><?php echo $item['TIENG_ROMANJI'] ?></td>
+                            <td><?php echo $item['HAN_TU'] ?></td>
+                            <td><?php echo $item['NGHIA_HANTU'] ?></td>
+                            <td align="center">
+                                <a href='javascript:void(0)' class="icon shownghia"><i class="fa fa-search-plus"></i></a>
+                                <div class="none" style="text-align:left">
+                                    <input type='hidden' class='coquyen' value='<?php echo ($item['NV_THEM']==$manv || $laadmin==1)?'1':'0' ?>' />
+                                    <input type='hidden' class='manpvd' value='<?php echo $item['MATU'] ?>' />
+                                    <?php
+                                    $count=0;
+                                    foreach ($this->nghia as $value) {
+                                        if($value['MATU']==$item['MATU']){
+                                            echo "<div class='row as-row-table vd".$value['MANGHIA']."' style='border-bottom:1px dotted #ccc;padding-bottom:5px'><div class='col-lg-10 col-md-10 col-sm-10 col-xs-10'><b>".(++$count)."</b> <div class='groupedit'><textarea class='nhat edit_input'>".$value['NGHIA_TIENGNHAT']."</textarea><span>".$value['NGHIA_TIENGNHAT']."</span><br /><textarea class='viet edit_input'>".$value['NGHIA_TIENGVIET']."</textarea><span>".$value['NGHIA_TIENGVIET']."</span><div style='margin-top:0px;margin-bottom:10px;text-align:center' class='grou-bt-edit'><input class='btn btn-xs btn-primary btn-save' data='{\"id\":".$value['MANGHIA']."}' type='button' value='Lưu lại' style='display:none' /> <input class='btn btn-xs btn-primary btn-hideedit' style='display:none' type='button' value='Hủy Bỏ' /></div></div></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><input class='btn btn-xs btn-default btn-showedit' type='button' value='Sửa' /><br /><input class='btn btn-xs btn-default btn-delete' type='button' value='Xóa' data='{\"id\":".$value['MANGHIA']."}' style='margin-top:5px' /><br /><input type='button' value='VD' class='btn btn-xs btn-default btn-showvd' style='margin-top:5px' data='{\"id\":".$value['MANGHIA']."}' /></div>";
+                                            echo "<div class='anshow'>";
+                                            foreach ($this->vd_nghia as $value2) {
+                                                if($value2['MANGHIA']==$value['MANGHIA']){
+                                                    echo "<div class='row as-row-table vda".$value2['MA']."' style='border-bottom:1px dotted #ccc;padding-bottom:5px'><div class='col-lg-10 col-md-10 col-sm-10 col-xs-10'><b>...</b> <div class='groupedit'><textarea class='nhat edit_input'>".$value2['VIDU_TN']."</textarea><span>".$value2['VIDU_TN']."</span><br /><textarea class='viet edit_input'>".$value2['VIDU_TV']."</textarea><span>".$value2['VIDU_TV']."</span><div style='margin-top:0px;margin-bottom:10px;text-align:center' class='grou-bt-edit'><input class='btn btn-xs btn-primary btn-save' data='{\"id\":".$value2['MA']."}' type='button' value='Lưu lại' style='display:none' /> <input class='btn btn-xs btn-primary btn-hideedit' style='display:none' type='button' value='Hủy Bỏ' /></div></div></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><input class='btn btn-xs btn-default btn-showedit' type='button' value='Sửa' /><br /><input class='btn btn-xs btn-default btn-delete' type='button' value='Xóa' data='{\"id\":".$value2['MA']."}' style='margin-top:5px' /></div><input type='hidden' class='manpvd' value='".$value['MANGHIA']."' /></div>";
+                                                }
+                                            }
+                                            echo "</div></div>";
+                                        }
+                                    }
+                                      ?>
+                                </div>
+                            </td>
+                             <?php 
+                                $first = strtotime(date('Y/m/d',strtotime($item['NGAY_CAP_NHAT'])));
+                            $tg=round(abs($first-$second)/(60*60*24));
+                            if($tg==0)
+                                $tg="Hôm nay";
+                            else{
+                                if($tg==1){
+                                    $tg= "Hôm qua";
+                                }else{
+                                    $tg=$tg." ngày trước";
+                                }
+                            } ?>
+                            <td title="<?php echo (date('d/m/Y H:i:s',strtotime($item['NGAY_CAP_NHAT']))) ?>"><?php echo $tg ?></td>
+                            <td align="center">
+                                <?php if($item['AUDIO']!=''){ ?>
+                                            <span class="fa fa-volume-down fa-md audio" onclick="runaudio(this);">
+                                                <audio controls="controls" class="none">
+                                                    <source src="<?php echo $item['AUDIO'] ?>" type="audio/mpeg" />
+                                                </audio>
+                                            </span>
+                                        <?php } ?>
+                            </td>
+                            <td><?php echo $item['GHI_CHU'] ?></td>
+                            <td><?php echo $item['HOTEN'] ?></td>
+                            <td><?php echo ($item['KICH_HOAT']==0)?"false":"true" ?></td>
+                            
+                            
+                            <td align="center">
+                                <?php if($item['NV_THEM']==$manv || $laadmin==1){ ?>
+                                <a href='<?php echo $this->baseUrl() ?>tu-vung/sua?id=<?php echo $item['MATU'] ?>' class="icon"><i class="fa fa-edit"></i></a>
+                                <?php } ?>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                </table>
+                <input type="hidden" name="action" value="bat_tat" />
+            </form>
+        </div>
+        <?php $this->paging(); ?>
+    </div>
+</div>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->asset() ?>css/dialog.css" />
+<script type="text/javascript" src="<?php echo $this->asset() ?>js/dialog.js"></script>
+<div id="dialog" class="dialogshow">
+    <div class='header'>
+        Nghĩa <i title="close" class="fa fa-remove closedialog"></i>
+    </div>
+    <div class='ct'>
+           
+    </div>
+</div>
+<div id="dialog2" class="dialogshow2">
+    <div class='header'>
+        Ví Dụ <i title="close" class="fa fa-remove closedialog"></i>
+    </div>
+    <div class='ct'>
+           
+    </div>
+</div>
+<script type="text/javascript">
+    var dialogshow=null;
+    var dialogshow2=null;
+    $(function(){
+         dialogshow=new dialog($("#dialog"),{
+            "width":580,
+            "height":450
+        });
+         dialogshow.init();
+         dialogshow2=new dialog($("#dialog2"),{
+            "width":600,
+            "height":500
+        },function(thi,objj,l){
+            if(l=="hide"){
+                objj.fadeOut();
+            }
+            if(l=="show"){
+                objj.fadeIn();
+            }
+        });
+         dialogshow2.init();
+
+        $(".btn-count").click(function(){
+            var sl=$(".checkboxitem:checked").size();
+            if(sl<1){
+                alert("Vui lòng chọn ít nhất 1 từ vựng tiếp tục");
+                return false;
+            }
+            if(confirm("Bạn có chắc muốn làm điều này?")){
+                $("#frm_table input[name='action']").val($(this).attr("id"));
+               $("#frm_table").submit(); 
+            }
+        });
+
+        $(".shownghia").click(function(){
+             var quyen=parseInt($(this).parent().find(".none .coquyen").val());
+
+             if(quyen==1){
+                var thparent=$(this);
+            $(".dialogshow .ct").html($(this).parent().find(".none").html()).prepend("<div style='border-bottom:1px solid #ddd;padding-bottom:10px'><input id='showthemmoi' class='btn btn-xs btn-success' value='Thêm nghĩa mới' /><div class='none'><div class='row as-row-table'><div class='col-lg-3 col-md-3'>Tiếng Nhật: </div><div class='col-lg-9 col-md-9'><input name='vd_nhat' class='form-control input-small' placeholder='VD: えつなん' /></div><br /><br /><div class='col-lg-3 col-md-3 margin-top-row '>Tiếng Việt: </div><div class='col-lg-9 col-md-9'><input name='vd_viet' class='form-control input-small' placeholder='VD: Việt Nam' /></div><br /><br /><div class='col-lg-3 col-md-3 margin-top-row '></div><div class='col-lg-9 col-md-9'><input type='button' id='them' value='Thêm Mới' /> <input type='button' id='huythem' value='Hủy Bỏ' /></div></div></div></div>");
+                var manp=$(".dialogshow .manpvd").val();
+           
+            
+                $(".dialogshow .btn-showedit").on('click',function(){
+                    var p=$(this).parent().parent();
+                    p.find(".groupedit span").hide();
+                    p.find(".groupedit .edit_input").show();
+                    p.find(".grou-bt-edit input").show();
+                    $(this).addClass("disabled");
+                });
+                $(".dialogshow .btn-delete").on('click',function(){
+                    if(confirm("Bạn có chắc muốn xóa nghĩa này?")){
+                        var json_str=$(this).attr("data");
+                        var d=JSON.parse(json_str);
+                        var thsxoa=$(this);
+                        LoadJson(base_url+"ajax/xoa_nghia_tv",d,function(result){
+                            if(result.success>0){
+                                thsxoa.parent().parent().fadeOut();
+                                thparent.parent().find(".none .vd"+d.id).remove();
+                            }else{
+                                alert("Xóa thất bại. Có thể nghĩa này có ví dụ");
+                            }
+                        });
+                    }
+                });
+                $(".dialogshow .btn-hideedit").on('click',function(){
+                    var p=$(this).parent().parent();
+                    p.find("span").show();
+                    p.find(".edit_input").hide();
+                    p.find(".grou-bt-edit input").hide();
+                    $(".dialogshow .btn-showedit").removeClass("disabled");
+                });
+                $(".dialogshow .btn-save").on('click',function(){
+                    var json_str=$(this).attr("data");
+                    var d=JSON.parse(json_str);
+                    var ps=$(this).parent().parent();
+                    var datas={"VIET":ps.find(".viet").val().trim(),"NHAT":ps.find(".nhat").val().trim(),"MAVD":d.id};
+                    if(datas.NHAT=="" || datas.VIET==""){
+                        alert("Vui lòng nhập đầy đủ thông tin.");
+                        return false;
+                    }
+                    $(this).addClass("disabled").val("Đang Lưu...");
+                    LoadJson(base_url+"ajax/sua_nghia_tv",datas,function(result){
+                        if(result.success>0){
+                            ps.find("span").eq(0).html(datas.NHAT);
+                            ps.find("span").eq(1).html(datas.VIET);
+
+                            var ssss=thparent.parent().find(".none .vd"+datas.MAVD);
+                            ssss.find(".groupedit textarea").eq(0).html(datas.NHAT);
+                            ssss.find(".groupedit span").eq(0).html(datas.NHAT);
+                            ssss.find(".groupedit textarea").eq(1).html(datas.VIET);
+                            ssss.find(".groupedit span").eq(1).html(datas.VIET);
+                            
+                            ps.find(".btn-hideedit").click();
+                            ps.find(".btn-save.disabled").val("Lưu lại").removeClass("disabled");
+                        }
+                    });
+                });
+                $(".dialogshow #showthemmoi").click(function(){
+                    $(this).hide();
+                    $(this).parent().find(".none").fadeIn();
+
+                });
+                $(".dialogshow").on('click','.btn-showvd',function(){
+                    $(".dialogshow2 .ct").html("").html($(this).parent().parent().find(".anshow").html()).prepend("<div style='border-bottom:1px solid #ddd;padding-bottom:10px'><input id='showthemmoi1' class='btn btn-xs btn-success' value='Thêm VD mới' /><div class='none'><div class='row as-row-table'><div class='col-lg-3 col-md-3'>Tiếng Nhật: </div><div class='col-lg-9 col-md-9'><input name='vd_nhat' class='form-control input-small' placeholder='VD: 南えつみなみに留学りゅうがくする' /></div><br /><br /><div class='col-lg-3 col-md-3 margin-top-row '>Tiếng Việt: </div><div class='col-lg-9 col-md-9'><input name='vd_viet' class='form-control input-small' placeholder='VD: du học ở Việt Nam' /></div><br /><br /><div class='col-lg-3 col-md-3 margin-top-row '></div><div class='col-lg-9 col-md-9'><input type='button' id='them1' value='Thêm Mới' /> <input type='button' id='huythem1' value='Hủy Bỏ' /></div></div></div></div>");
+                    dialogshow2.show();
+
+
+                    var dataaaa=JSON.parse($(this).attr("data"));
+                    var manp2=dataaaa.id;
+
+                    $(".dialogshow2 #showthemmoi1").click(function(){
+                        $(this).hide();
+                        $(this).parent().find(".none").fadeIn();
+
+                    });
+                    $(".dialogshow2 #huythem1").click(function(){
+                        $(".dialogshow2 #showthemmoi1").fadeIn();
+                        $(this).parent().parent().parent().fadeOut();
+                    });
+                    $(".dialogshow2 .btn-showedit").on('click',function(){
+                        var p=$(this).parent().parent();
+                        p.find(".groupedit span").hide();
+                        p.find(".groupedit .edit_input").show();
+                        p.find(".grou-bt-edit input").show();
+                        $(this).addClass("disabled");
+                    });
+                    $(".dialogshow2 .btn-hideedit").on('click',function(){
+                        var p=$(this).parent().parent();
+                        p.find("span").show();
+                        p.find(".edit_input").hide();
+                        p.find(".grou-bt-edit input").hide();
+                        $(".dialogshow2 .btn-showedit").removeClass("disabled");
+                    });
+                    $(".dialogshow2 .btn-delete").on('click',function(){
+                        if(confirm("Bạn có chắc muốn xóa VD này?")){
+                            var json_str=$(this).attr("data");
+                            var d=JSON.parse(json_str);
+                            var thsxoa=$(this);
+                            LoadJson(base_url+"ajax/xoa_vd_nghia_tv",d,function(result){
+                                if(result.success>0){
+                                    thsxoa.parent().parent().fadeOut();
+                                    thparent.parent().find(".none .vd"+manp2+" .anshow .vda"+d.id).remove();
+                                    $(".dialogshow").find(".ct .vd"+manp2+" .anshow .vda"+d.id).remove();
+                                }else{
+                                    alert("Xóa thất bại");
+                                }
+                            });
+                        }
+                    });
+                    $("#them1").click(function(){
+                        var p=$(this).parent().parent();
+                        var data={"NHAT":p.find("input[name='vd_nhat']").val().trim(),"VIET":p.find("input[name='vd_viet']").val().trim(),"MANGHIA":manp2};
+                        if(data.NHAT=="" || data.VIET==""){
+                            alert("Vui lòng nhập đầy đủ thông tin.");
+                            return false;
+                        }
+                        $(this).attr("disabled","disabled").val("Đang Lưu...");
+                        LoadJson(base_url+"ajax/them_vd_nghia_tv",data,function(result){
+                            if(result.success==-1){
+                                alert("Thêm thất bại");
+                            }else{
+                                $(".dialogshow2 .ct").append("<div class='row as-row-table vda"+result.success+"' style='border-bottom:1px dotted #ccc;padding-bottom:5px'><div class='col-lg-10 col-md-10 col-sm-10 col-xs-10'><b>...</b> <div class='groupedit'><textarea class='nhat edit_input'>"+data.NHAT+"</textarea><span>"+data.NHAT+"</span><br /><textarea class='viet edit_input'>"+data.VIET+"</textarea><span>"+data.VIET+"</span><div style='margin-top:0px;margin-bottom:10px;text-align:center' class='grou-bt-edit'><input class='btn btn-xs btn-primary btn-save' data='{\"id\":"+result.success+"}' type='button' value='Lưu lại' style='display:none' /> <input class='btn btn-xs btn-primary btn-hideedit' style='display:none' type='button' value='Hủy Bỏ' /></div></div></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><input class='btn btn-xs btn-default btn-showedit' type='button' value='Sửa' /><br /><input class='btn btn-xs btn-default btn-delete' type='button' value='Xóa' data='{\"id\":"+result.success+"}' style='margin-top:5px' /></div><input type='hidden' class='manpvd' value='"+manp2+"' /></div>");
+                                thparent.parent().find(".none .vd"+manp2+" .anshow").append("<div class='row as-row-table vda"+result.success+"' style='border-bottom:1px dotted #ccc;padding-bottom:5px'><div class='col-lg-10 col-md-10 col-sm-10 col-xs-10'><b>...</b> <div class='groupedit'><textarea class='nhat edit_input'>"+data.NHAT+"</textarea><span>"+data.NHAT+"</span><br /><textarea class='viet edit_input'>"+data.VIET+"</textarea><span>"+data.VIET+"</span><div style='margin-top:0px;margin-bottom:10px;text-align:center' class='grou-bt-edit'><input class='btn btn-xs btn-primary btn-save' data='{\"id\":"+result.success+"}' type='button' value='Lưu lại' style='display:none' /> <input class='btn btn-xs btn-primary btn-hideedit' style='display:none' type='button' value='Hủy Bỏ' /></div></div></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><input class='btn btn-xs btn-default btn-showedit' type='button' value='Sửa' /><br /><input class='btn btn-xs btn-default btn-delete' type='button' value='Xóa' data='{\"id\":"+result.success+"}' style='margin-top:5px' /></div><input type='hidden' class='manpvd' value='"+manp2+"' /></div>");
+                                $(".dialogshow .vd"+manp2+" .anshow").append("<div class='row as-row-table vda"+result.success+"' style='border-bottom:1px dotted #ccc;padding-bottom:5px'><div class='col-lg-10 col-md-10 col-sm-10 col-xs-10'><b>...</b> <div class='groupedit'><textarea class='nhat edit_input'>"+data.NHAT+"</textarea><span>"+data.NHAT+"</span><br /><textarea class='viet edit_input'>"+data.VIET+"</textarea><span>"+data.VIET+"</span><div style='margin-top:0px;margin-bottom:10px;text-align:center' class='grou-bt-edit'><input class='btn btn-xs btn-primary btn-save' data='{\"id\":"+result.success+"}' type='button' value='Lưu lại' style='display:none' /> <input class='btn btn-xs btn-primary btn-hideedit' style='display:none' type='button' value='Hủy Bỏ' /></div></div></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><input class='btn btn-xs btn-default btn-showedit' type='button' value='Sửa' /><br /><input class='btn btn-xs btn-default btn-delete' type='button' value='Xóa' data='{\"id\":"+result.success+"}' style='margin-top:5px' /></div><input type='hidden' class='manpvd' value='"+manp2+"' /></div>");
+                                p.find("input[name='vd_nhat']").val("");
+                                p.find("input[name='vd_viet']").val("");
+                                p.find("#them1").val("Thêm Mới").removeAttr("disabled");
+                                $(".dialogshow2 .btn-showedit").off('click');
+                                $(".dialogshow2 .btn-showedit").on('click',function(){
+                                    var p=$(this).parent().parent();
+                                    p.find(".groupedit span").hide();
+                                    p.find(".groupedit .edit_input").show();
+                                    p.find(".grou-bt-edit input").show();
+                                    $(this).addClass("disabled");
+                                });
+                                $(".dialogshow2 .btn-hideedit").off('click');
+                                $(".dialogshow2 .btn-hideedit").on('click',function(){
+                                    var p=$(this).parent().parent();
+                                    p.find("span").show();
+                                    p.find(".edit_input").hide();
+                                    p.find(".grou-bt-edit input").hide();
+                                    $(".dialogshow2 .btn-showedit").removeClass("disabled");
+                                });
+                                $(".dialogshow2 .btn-delete").off('click');
+                                $(".dialogshow2 .btn-delete").on('click',function(){
+                                    if(confirm("Bạn có chắc muốn xóa VD này?")){
+                                        var json_str=$(this).attr("data");
+                                        var d=JSON.parse(json_str);
+                                        var thsxoa=$(this);
+                                        LoadJson(base_url+"ajax/xoa_vd_nghia_tv",d,function(result){
+                                            if(result.success>0){
+                                                thsxoa.parent().parent().fadeOut();
+                                                thparent.parent().find(".none .vd"+manp2+" .anshow .vda"+d.id).remove();
+                                                $(".dialogshow").find(".ct .vd"+manp2+" .anshow .vda"+d.id).remove();
+                                            }else{
+                                                alert("Xóa thất bại");
+                                            }
+                                        });
+                                    }
+                                });
+                                $(".dialogshow2 .btn-save").off('click');
+                                $(".dialogshow2 .btn-save").on('click',function(){
+                                    var json_str=$(this).attr("data");
+                                    var d=JSON.parse(json_str);
+                                    var ps=$(this).parent().parent();
+                                    var datas={"VIET":ps.find(".viet").val().trim(),"NHAT":ps.find(".nhat").val().trim(),"MAVD":d.id};
+                                    if(datas.NHAT=="" || datas.VIET==""){
+                                        alert("Vui lòng nhập đầy đủ thông tin.");
+                                        return false;
+                                    }
+                                    $(this).addClass("disabled").val("Đang Lưu...");
+                                    LoadJson(base_url+"ajax/sua_vd_nghia_tv",datas,function(result){
+                                        if(result.success>0){
+                                            ps.find("span").eq(0).html(datas.NHAT);
+                                            ps.find("span").eq(1).html(datas.VIET);
+                                            var ssss=thparent.parent().find(".none .vd"+manp2+" .anshow .vda"+datas.MAVD);
+                                            ssss.find(".groupedit textarea").eq(0).html(datas.NHAT);
+                                            ssss.find(".groupedit span").eq(0).html(datas.NHAT);
+                                            ssss.find(".groupedit textarea").eq(1).html(datas.VIET);
+                                            ssss.find(".groupedit span").eq(1).html(datas.VIET);
+
+                                            var ssss2=$(".dialogshow .vd"+manp2+" .anshow .vda"+datas.MAVD);
+                                            ssss2.find(".groupedit textarea").eq(0).html(datas.NHAT);
+                                            ssss2.find(".groupedit span").eq(0).html(datas.NHAT);
+                                            ssss2.find(".groupedit textarea").eq(1).html(datas.VIET);
+                                            ssss2.find(".groupedit span").eq(1).html(datas.VIET);
+                                            
+                                            ps.find(".btn-hideedit").click();
+                                            ps.find(".btn-save.disabled").val("Lưu lại").removeClass("disabled");
+                                        }
+                                    });
+                                });
+                        
+                            }
+                        });
+                    });
+                    $(".dialogshow2 .btn-save").on('click',function(){
+                        var json_str=$(this).attr("data");
+                        var d=JSON.parse(json_str);
+                        var ps=$(this).parent().parent();
+                        var datas={"VIET":ps.find(".viet").val().trim(),"NHAT":ps.find(".nhat").val().trim(),"MAVD":d.id};
+                        if(datas.NHAT=="" || datas.VIET==""){
+                            alert("Vui lòng nhập đầy đủ thông tin.");
+                            return false;
+                        }
+                        $(this).addClass("disabled").val("Đang Lưu...");
+                        LoadJson(base_url+"ajax/sua_vd_nghia_tv",datas,function(result){
+                            if(result.success>0){
+                                ps.find("span").eq(0).html(datas.NHAT);
+                                ps.find("span").eq(1).html(datas.VIET);
+                                var ssss=thparent.parent().find(".none .vd"+manp2+" .anshow .vda"+datas.MAVD);
+                                ssss.find(".groupedit textarea").eq(0).html(datas.NHAT);
+                                ssss.find(".groupedit span").eq(0).html(datas.NHAT);
+                                ssss.find(".groupedit textarea").eq(1).html(datas.VIET);
+                                ssss.find(".groupedit span").eq(1).html(datas.VIET);
+
+                                var ssss2=$(".dialogshow .vd"+manp2+" .anshow .vda"+datas.MAVD);
+                                ssss2.find(".groupedit textarea").eq(0).html(datas.NHAT);
+                                ssss2.find(".groupedit span").eq(0).html(datas.NHAT);
+                                ssss2.find(".groupedit textarea").eq(1).html(datas.VIET);
+                                ssss2.find(".groupedit span").eq(1).html(datas.VIET);
+                                
+                                ps.find(".btn-hideedit").click();
+                                ps.find(".btn-save.disabled").val("Lưu lại").removeClass("disabled");
+                            }
+                        });
+                    });
+                });
+                $("#huythem").click(function(){
+                    $(".dialogshow #showthemmoi").fadeIn();
+                    $(this).parent().parent().parent().fadeOut();
+                });
+                $("#them").click(function(){
+                    var p=$(this).parent().parent();
+                    var data={"NHAT":p.find("input[name='vd_nhat']").val().trim(),"VIET":p.find("input[name='vd_viet']").val().trim(),"MANP":manp};
+                    if(data.NHAT=="" || data.VIET==""){
+                        alert("Vui lòng nhập đầy đủ thông tin.");
+                        return false;
+                    }
+                    $(this).attr("disabled","disabled").val("Đang Lưu...");
+                    LoadJson(base_url+"ajax/them_nghia_tv",data,function(result){
+                        if(result.success==-1){
+                            alert("Thêm thất bại");
+                        }else{
+                            $(".dialogshow .ct").append("<div class='row as-row-table vd"+result.success+"' style='border-bottom:1px dotted #ccc;padding-bottom:5px'><div class='col-lg-10 col-md-10 col-sm-10 col-xs-10'><b>..</b> <div class='groupedit'><textarea class='nhat edit_input'>"+data.NHAT+"</textarea><span>"+data.NHAT+"</span><br /><textarea class='viet edit_input'>"+data.VIET+"</textarea><span>"+data.VIET+"</span><div style='margin-top:20px;text-align:center' class='grou-bt-edit'><input class='btn btn-xs btn-primary btn-save' type='button' value='Lưu lại' style='display:none' data='{\"id\":"+result.success+"}' /> <input class='btn btn-xs btn-primary btn-hideedit' style='display:none' type='button' value='Hủy Bỏ' /></div></div></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><input class='btn btn-xs btn-default btn-showedit' type='button' value='Sửa' style='margin-top:20px' /><br /><input class='btn btn-xs btn-default btn-delete' type='button' value='Xóa' data='{\"id\":"+result.success+"}' style='margin-top:5px' /><br /><input type='button' value='VD' class='btn btn-xs btn-default btn-showvd' style='margin-top:5px' data='{\"id\":"+result.success+"}' /></div><input type='hidden' class='manpvd' value='"+manp+"' /><input type='hidden' class='coquyen' value='1' /><div class='anshow'></div></div>");
+                            thparent.parent().find(".none").append("<div class='row as-row-table vd"+result.success+"' style='border-bottom:1px dotted #ccc;padding-bottom:5px'><div class='col-lg-10 col-md-10 col-sm-10 col-xs-10'><b>..</b> <div class='groupedit'><textarea class='nhat edit_input'>"+data.NHAT+"</textarea><span>"+data.NHAT+"</span><br /><textarea class='viet edit_input'>"+data.VIET+"</textarea><span>"+data.VIET+"</span><div style='margin-top:20px;text-align:center' class='grou-bt-edit'><input class='btn btn-xs btn-primary btn-save' type='button' value='Lưu lại' style='display:none' /> <input class='btn btn-xs btn-primary btn-hideedit' style='display:none' type='button' value='Hủy Bỏ' /></div></div></div><div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'><input class='btn btn-xs btn-default btn-showedit' type='button' value='Sửa' style='margin-top:20px' /><br /><input class='btn btn-xs btn-default btn-delete' type='button' value='Xóa' data='{\"id\":"+result.success+"}' style='margin-top:5px' /><br /><input type='button' value='VD' class='btn btn-xs btn-default btn-showvd' style='margin-top:5px' data='{\"id\":"+result.success+"}' /></div><input type='hidden' class='manpvd' value='"+manp+"' /><input type='hidden' class='coquyen' value='1' /><div class='anshow'></div></div>");
+                            p.find("input[name='vd_nhat']").val("");
+                            p.find("input[name='vd_viet']").val("");
+                            p.find("#them").val("Thêm Mới").removeAttr("disabled");
+
+                            $(".dialogshow .btn-showedit").off('click');
+                            $(".dialogshow .btn-showedit").on('click',function(){
+                                var p=$(this).parent().parent();
+                                p.find(".groupedit span").hide();
+                                p.find(".groupedit .edit_input").show();
+                                p.find(".grou-bt-edit input").show();
+                                $(this).addClass("disabled");
+                            });
+                            $(".dialogshow .btn-delete").off('click');
+                            $(".dialogshow .btn-delete").on('click',function(){
+                                if(confirm("Bạn có chắc muốn xóa VD này?")){
+                                    var json_str=$(this).attr("data");
+                                    var d=JSON.parse(json_str);
+                                    var thsxoa=$(this);
+                                    LoadJson(base_url+"ajax/xoa_nghia_tv",d,function(result){
+                                        if(result.success>0){
+                                            thsxoa.parent().parent().fadeOut();
+                                            thparent.parent().find(".none .vd"+d.id).remove();
+                                        }else{
+                                            alert("Xóa thất bại");
+                                        }
+                                    });
+                                }
+                            });
+                            $(".dialogshow .btn-hideedit").off('click');
+                            $(".dialogshow .btn-hideedit").on('click',function(){
+                                var p=$(this).parent().parent();
+                                p.find("span").show();
+                                p.find(".edit_input").hide();
+                                p.find(".grou-bt-edit input").hide();
+                                $(".dialogshow .btn-showedit").removeClass("disabled");
+                            });
+                            $(".dialogshow .btn-save").off('click');
+                            $(".dialogshow .btn-save").on('click',function(){
+                                var json_str=$(this).attr("data");
+                                var d=JSON.parse(json_str);
+                                var ps=$(this).parent().parent();
+                                var datas={"VIET":ps.find(".viet").val().trim(),"NHAT":ps.find(".nhat").val().trim(),"MAVD":d.id};
+                                if(datas.NHAT=="" || datas.VIET==""){
+                                    alert("Vui lòng nhập đầy đủ thông tin.");
+                                    return false;
+                                }
+                                $(this).addClass("disabled").val("Đang Lưu...");
+                                LoadJson(base_url+"ajax/sua_nghia_tv",datas,function(result){
+                                    if(result.success>0){
+                                        ps.find("span").eq(0).html(datas.NHAT);
+                                        ps.find("span").eq(1).html(datas.VIET);
+
+                                        var ssss=thparent.parent().find(".none .vd"+datas.MAVD);
+                                        ssss.find(".groupedit textarea").eq(0).html(datas.NHAT);
+                                        ssss.find(".groupedit span").eq(0).html(datas.NHAT);
+                                        ssss.find(".groupedit textarea").eq(1).html(datas.VIET);
+                                        ssss.find(".groupedit span").eq(1).html(datas.VIET);
+                                        
+                                        ps.find(".btn-hideedit").click();
+                                        ps.find(".btn-save.disabled").val("Lưu lại").removeClass("disabled");
+                                    }
+                                });
+                            });
+                        }
+                    });
+                });
+            }else{
+                $(".dialogshow .ct").html($(this).parent().find(".none").html());
+                $(".dialogshow .btn-showedit").hide();
+            }
+            dialogshow.show();
+        });
+
+
+        var sort="<?php if(isset($_GET['s'])) echo $_GET['s']; else echo '0' ?>";
+
+        $("select[name='s']").val(sort);
+        var filter="<?php if(isset($_GET['f'])) echo $_GET['f']; else echo '0' ?>";
+
+        $("select[name='f']").val(filter);
+
+        
+    });
+    function runaudio(th){
+
+        var audio=th.getElementsByTagName('audio')[0];
+        if(!$(th).hasClass("active")){
+            $(th).addClass("active");
+            audio.play();
+        }else{
+            $(th).removeClass("active");
+            audio.pause();
+        }
+    }
+
+    
+
+    
+   
+</script>
+<style type="text/css">
+    span.audio{
+        color:#888;
+    }
+    span.audio:hover,span.audio.active{
+        color:#333;
+        cursor: pointer;
+    }
+
+</style>

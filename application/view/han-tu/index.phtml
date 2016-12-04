@@ -1,0 +1,170 @@
+<script type="text/javascript">
+    $(function(){
+        $("#navbar_toggle ul li:eq(2)").addClass("active");
+    });
+</script>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Danh Sách Hán Tự   
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i> <a href="<?php echo $this->baseUrl() ?>">Trang Chủ</a>
+            </li>
+            <li>
+                <i class="fa fa-html5"></i> Hán Tự
+            </li>
+        </ol>
+    </div>
+    <div id="main-content">
+        <?php if($this->message!=null){ ?>
+            <div class="message">
+                <?php echo $this->message ?>
+            </div>
+        <?php } ?>
+        <div class="row" style="margin-left:-1.5%">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="margin-bottom:5px">
+                <div class="group-button clearfix">
+                    <a href="<?php echo $this->baseUrl() ?>han-tu/them" class="pull-left btn btn-primary btn-sm">Thêm mới</a>
+                    <div class="btn btn-primary btn-sm btn-count disabled" style="margin-left:5px" id="xoa">Xóa <i></i></div>
+                   <div class="btn btn-primary btn-sm btn-count disabled" style="margin-left:5px" id="bat_tat">Bật/Tắt Kích hoạt <i></i></div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 col-xs-marg text-right clearfix">
+               <form method="get" action="" class="pull-right">
+                    <select class="sfilter" name="s">
+                        <option value="0">-Sắp xếp-</option>
+                        <option value="1">Mới nhất</option>
+                        <option value="2">Cũ nhất</option>
+                        <option value="3">Bộ</option>
+                    </select>
+                </form>
+                <form method="get" action="" class="pull-right">
+                <select class="sfilter" name="f">
+                        <option value="0">- Lọc dữ liệu -</option>
+                        <option value="1">Từ của bạn</option>
+                        <option value="2">Đã kích hoạt</option>
+                        <option value="3">Chưa kích hoạt</option>
+                    </select>
+                </form>
+                <form method="get" action="" class="pull-right">
+                    <div class="frmsearch clearfix">
+                        <input title="" type="text" class="textboxsearch" value="<?php if(isset($_GET['q'])) echo $_GET['q']; ?>"  placeholder="Nhập nội dung tìm kiếm..." name="q" />
+                        <input type="submit" class="buttonsearch" value="" />
+                    </div>
+                    <?php if(isset($_GET["sort"])){ ?>
+                        <input type="hidden" name="sort" value="<?php echo $_GET["sort"] ?>" />
+                    <?php } ?>
+                </form>
+                 
+                
+            </div>
+        </div>
+        <br />
+        <div class="table-responsive"> 
+            <form method="post" action="" id="frm_table">
+                <table class="table table-bordered table-hover">
+                    <tr>
+                        <th><input id="checkAll" type="checkbox" /></th>
+                        <th>Từ</th>
+                        <th>Bộ</th>
+                        <th>Bộ huấn</th>
+                        <th>Bộ âm</th>
+                        <th>Nét</th>
+                        <th>JLPT</th>
+                        <th>Bộ TP</th>
+                        <th width="18%">Nghĩa</th>
+                        <th width="18%">Giải Nghĩa</th>
+                        <th width="5%">NV</th>
+                        <th>UD</th>
+                        <th>Active</th>
+                        <th>Edit</th>
+                    </tr>
+                    <?php
+                $now=getdate();
+                $second = strtotime($now["year"].'/'.$now["mon"].'/'.$now["mday"]);
+                $manv=$this->layout->userinfo['MANV']; 
+                $laadmin=$this->layout->userinfo['LAADMIN']; ?>
+                    <?php foreach($this->data as $item){ ?>
+                        <tr>
+                            <td align="center">
+                                <?php if($item['NV_GUI']==$manv || $laadmin==1){ ?>
+                                    <input class="checkboxitem" type="checkbox" name="item[]" value="<?php echo $item['MAHT'].'[[~]]'.$item['TU'] ?>" />
+                                <?php }else{ ?>
+                                    <input class="disabled" disabled="disabled" type="checkbox"/>
+                                <?php } ?>
+                            </td>
+                            <td><?php echo $item['TU'] ?></td>
+                            <td><?php echo $item['BO'] ?></td>
+                            <td><?php echo $item['BO_HUAN'] ?></td>
+                            <td><?php echo $item['BO_AM'] ?></td>
+                            <td><?php echo $item['SONET'] ?></td>
+                            <td align="center"><?php echo $item['JLPT'] ?></td>
+                            <td><?php echo $item['BO_THANH_PHAN'] ?></td>
+                            <td><div class='cut_length'><?php echo $item['NGHIA'] ?></div></td>
+                            <td><div class='cut_length'><?php echo str_replace("\n", "<br /> - ", '- '.$item['GIAI_NGHIA']) ?></div></td>
+
+                            <td><?php echo $item['HOTEN'] ?></td>
+                           
+                            <?php 
+                            $first = strtotime(date('Y/m/d',strtotime($item['NGAY_CAP_NHAT'])));
+                        $tg=round(abs($first-$second)/(60*60*24));
+                        if($tg==0)
+                            $tg="Hôm nay";
+                        else{
+                            if($tg==1){
+                                $tg= "Hôm qua";
+                            }else{
+                                $tg=$tg." ngày trước";
+                            }
+                        } ?>
+                            <td width="5%" title="<?php echo (date('d/m/Y H:i:s',strtotime($item['NGAY_CAP_NHAT']))) ?>"><?php echo $tg ?></td>
+                            <td><?php echo ($item['KICH_HOAT']==0)?"false":"true" ?></td>
+                            <td align="center">
+                               <?php if($manv==$item['NV_GUI'] || $laadmin==1){ ?>
+                                <a href='<?php echo $this->baseUrl() ?>han-tu/sua?id=<?php echo $item['MAHT'] ?>' class="icon"><i class="fa fa-edit"></i></a>
+                                <?php } ?>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                </table>
+                <input type="hidden" name="action" value="bat_tat" />
+            </form>
+        </div>
+        <?php $this->paging(); ?>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        $(".cut_length").each(function(){
+            if($(this).html().length>130){
+                var html_old=$(this).html();
+                $(this).html($(this).html().substr(0,130)+"...<a href='javascript:void(0)'> More</a>");
+                $("<div class='none'>"+html_old+"</div>").appendTo($(this));
+                $(this).find("a").click(function(){
+                    $(this).parent().html($(this).parent().find(".none").html());
+                });
+            }
+        });
+
+        $(".btn-count").click(function(){
+            var sl=$(".checkboxitem:checked").size();
+            if(sl<1){
+                alert("Vui lòng chọn ít nhất 1 hán tự để tiếp tục");
+                return false;
+            }
+            if(confirm("Bạn có chắc muốn làm điều này?")){
+                $("#frm_table input[name='action']").val($(this).attr("id"));
+               $("#frm_table").submit(); 
+            }
+        });
+
+        var sort="<?php if(isset($_GET['s'])) echo $_GET['s']; else echo '0' ?>";
+
+        $("select[name='s']").val(sort);
+        var filter="<?php if(isset($_GET['f'])) echo $_GET['f']; else echo '0' ?>";
+
+        $("select[name='f']").val(filter);
+    });
+</script>

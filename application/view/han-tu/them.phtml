@@ -1,0 +1,144 @@
+<script type="text/javascript" src="<?php echo $this->asset() ?>js/validate.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $("#navbar_toggle ul li:eq(2)").addClass("active");
+
+        $("form").kiemtra([
+            {
+                'name':'hantu',
+                'trong':true
+            },
+            {
+                'name':'bo',
+                'trong':true
+            },
+            {
+                'name':'sonet',
+                'so':true
+            },
+            {
+                'name':'jlpt',
+                'select':true
+            },
+            {
+                'name':'nghia',
+                'trong':true
+            }
+        ]);
+    });
+</script>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Thêm Hán Tự   
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i> <a href="<?php echo $this->baseUrl() ?>">Trang Chủ</a>
+            </li>
+            <li>
+                <i class="fa fa-html5"></i> <a href="<?php echo $this->baseUrl() ?>han-tu">Hán Tự</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-plus"></i> Thêm Hán Tự
+            </li>
+        </ol>
+    </div>
+    <div id="main-content">
+        <?php if($this->message!=null){ ?>
+            <div class="message">
+                <?php echo $this->message ?>
+            </div>
+        <?php } ?>
+        <form method="post" action="">
+            <div class="row as-row-table">
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Hán tự: 
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <span class="red notnull">*</span>
+                    <input type="text" class="form-control input-small" name="hantu" placeholder="VD 本" value="<?php echo ($this->data!=null)?$this->data['TU']:'' ?>" />
+                </div>
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Bộ:
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <span class="red notnull">*</span>
+                    <input type="text" class="form-control input-small" placeholder="Mỗi bộ cách nhau 1 dấu ','" name="bo" value="<?php echo ($this->data!=null)?$this->data['BO']:'' ?>" />
+                </div>
+            </div> 
+            <div class="row as-row-table">
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Bộ huấn: 
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <span class="red notnull nottext"></span>
+                    <input type="text" class="form-control input-small" name="bohuan" placeholder="VD もと" value="<?php echo ($this->data!=null)?$this->data['BO_HUAN']:'' ?>" />
+                </div>
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Bộ âm:
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <span class="red notnull nottext"></span>
+                    <input type="text" class="form-control input-small" placeholder="VD ホン" name="boam" value="<?php echo ($this->data!=null)?$this->data['BO_AM']:'' ?>" />
+                </div>
+            </div> 
+            <div class="row as-row-table">
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Số nét: 
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <span class="red notnull">*</span>
+                    <input type="number" class="form-control input-small noterroricon" name="sonet" placeholder="Số nét của hán tự này" value="<?php echo ($this->data!=null)?$this->data['SONET']:'' ?>" />
+                </div>
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    JLPT:
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <span class="red notnull">*</span>
+                    <select name="jlpt" class="form-control noterroricon select-small">
+                        <option value="-1">- Chọn cấp độ JLPT -</option>
+                        <option value="N1">N1</option>
+                        <option value="N2">N2</option>
+                        <option value="N3">N3</option>
+                        <option value="N4">N4</option>
+                        <option value="N5">N5</option>
+                    </select>
+                </div>
+            </div> 
+            <div class="row as-row-table">
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Bộ thành phần: 
+                </div>
+                <div class="col-lg-10 col-md-10">
+                    <span class="red notnull nottext"></span>
+                    <input type="text" class="form-control input-small" name="bothanhphan" placeholder="VD 木 (MỘC)" value="<?php echo ($this->data!=null)?$this->data['BO_THANH_PHAN']:'' ?>" />
+                </div>
+            </div>
+            <div class="row as-row-table">
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Nghĩa: 
+                </div>
+                <div class="col-lg-10 col-md-10">
+                    <span class="red notnull">*</span>
+                    <textarea class="form-control textarea-small noterroricon" style="height:100px!important" name="nghia" placeholder="nghĩa tiếng việt của từ vựng này. Mỗi nghĩa cách nhau bởi đầu ','"><?php echo ($this->data!=null)?$this->data['NGHIA']:'' ?></textarea>
+                </div>
+            </div>
+            <div class="row as-row-table">
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Giải nghĩa: 
+                </div>
+                <div class="col-lg-10 col-md-10">
+                    <span class="red notnull nottext"></span>
+                    <textarea class="form-control textarea-small" style="height:100px!important" name="giainghia" placeholder="Giải nghĩa cho các nghĩa phía trên. Mỗi giải nghĩa xuống 1 hàng"><?php echo ($this->data!=null)?$this->data['GIAI_NGHIA']:'' ?></textarea>
+                </div>
+            </div>
+            <div class="row as-row-table text-right">
+                <div class="col-lg-12 col-md-12">
+                <input type="submit" class="btn btn-success btn-sm" value="Lưu Lại" />
+                <input type="reset" class="btn btn-default btn-sm" value="Nhập Lại"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

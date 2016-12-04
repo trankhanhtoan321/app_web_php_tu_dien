@@ -1,0 +1,168 @@
+<script type="text/javascript" src="<?php echo $this->asset() ?>js/validate.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $("#navbar_toggle ul li:eq(1)").addClass("active");
+        $("#frm-them").kiemtra([
+            {
+                'name':'hiragama',
+                'trong':true
+            },
+            {
+                'name':'audio',
+                'file':true,
+                'typefile':'audio',
+                'notnull':false
+            }
+            ,
+            {
+                'name':'nghia_nhat[]',
+                'trong':true,
+                'array':true,
+                'index':0
+            }
+            ,
+            {
+                'name':'nghia_viet[]',
+                'trong':true,
+                'array':true,
+                'index':0
+            }
+        ]);
+        $("#upload").click(function(){
+            $(this).parent().find(".file").click();
+        });
+        var base_url=window.location.origin+"<?php echo $this->baseUrl() ?>";
+        $(".file").change(function(){
+            $(this).parent().find("input:text").val(base_url+"upload/audio/"+getTimeNow()+"."+$(this).val().split(".").pop());
+        });
+    });
+    function getTimeNow(){
+        var dt=new Date();
+        return dt.getDate()+""+(dt.getMonth()+1)+""+dt.getFullYear()+""+dt.getHours()+""+dt.getMinutes()+""+dt.getSeconds();    
+    }
+</script>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Thêm Từ Vựng Mới
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i> <a href="<?php echo $this->baseUrl() ?>">Trang Chủ</a>
+            </li>
+            <li>
+                <i class="fa fa-book"></i> <a href='<?php echo $this->baseUrl() ?>tu-vung'>Từ Vựng</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-plus"></i> Thêm Từ Vựng
+            </li>
+        </ol>
+    </div>
+    <div id="main-content">
+
+        <?php if($this->message!=null){ ?>
+            <div class="message">
+                <?php echo $this->message ?>
+            </div>
+        <?php } ?>
+
+       <form method="post" action="" id="frm-them" enctype="multipart/form-data">
+            <div class="row as-row-table">
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Chữ Romanji:
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <span class="red notnull nottext"></span><input type="text" class="form-control input-small" placeholder="VD nihon" name="romanji" />
+                </div>
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Hán tự:
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <span class="red notnull">*</span><input type="text" class="form-control input-small" placeholder="VD 越南" name="hiragama" />
+                </div>
+            </div>
+            <div class="row as-row-table">
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Audio:
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <span class="red notnull nottext"></span>
+                    <div class="addon addon-right">
+                        <input type="text" name="audio_path" class="form-control input-small noterroricon" placeholder="Upload hoặc lấy url của trang khác" /><i class="fa fa-upload addon-icon" id="upload" title="upload audio"></i>
+                        <input type="file" name="audio" class="file" />
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Nghĩa Hán Tự:
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <span class="red notnull nottext"></span>
+                    <input type="text" class="form-control input-small" placeholder="VD NHẬT BỔN" name="hantu" />
+                </div>
+            </div>
+            <div class="row as-row-table">
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Ghi Chú:
+                </div>
+                <div class="col-lg-10 col-md-10">
+                    <span class="red notnull nottext"></span>
+                    <textarea class="form-control textarea-small" name="ghichu" placeholder="Ghi chú về từ vựng này"></textarea>
+                </div>
+            </div>
+             <div class="row as-row-table">
+                <div class="col-lg-12 col-md-12">
+                    <b>Nghĩa của từ: </b>
+                </div>
+            </div>
+            <div class='row as-row-table' style="padding:1%;border:1px solid #ccc">
+            <div class='col-lg-4 col-md-4 margin-top-row '>Tiếng Nhật <small>( Dùng khi tìm bằng tiếng việt)</small> </div><div class='col-lg-8 col-md-8'><span class="red notnull">*</span><input name='nghia_nhat[]' class='form-control input-small' placeholder='VD: ベトナム' /></div><br /><br /><div class='col-lg-4 col-md-4 margin-top-row '>Tiếng Việt <small>( Dùng khi tìm bằng tiếng nhật)</small></div><div class='col-lg-8 col-md-8'><span class="red notnull">*</span><input name='nghia_viet[]' class='form-control input-small' placeholder='VD: Việt Nam' /><input type='hidden' value='0' name='listthem[]' /></div><div><h5 class="clearfix" style="font-weight:bold;margin-top:50px;width:96%;margin-left:15px;margin-right:auto;border-bottom:1px solid #ddd;padding-bottom:5px"><span class="pull-left">Ví dụ cho nghĩa này <small>(có thể thêm sau)</small></span><span class="pull-right"><a title="Thêm VD" class="themvddd" data='0' href="javascript:void(0);" class="btn btn-xs btn-primary"><i class="fa fa-plus"></i></a></span></h5></div></div>
+            <div id="place_ex">
+                <div class="row as-row-table">
+                    <div class="col-lg-12 col-md-12 ">
+                        <h5 class="clearfix" style="font-weight:bold;border-bottom:1px solid #ddd;padding-bottom:5px">
+                            <span class="pull-left">Các nghĩa khác <small>(có thể thêm sau)</small></span>
+                            <span class="pull-right"><a title="Thêm VD" id="themvd" href="javascript:void(0)" class="btn btn-xs btn-primary"><i class="fa fa-plus"></i></a></span>
+                        </h5> 
+                    </div>
+                </div> 
+            </div>
+            <div class="row as-row-table text-right">
+                <div class="col-lg-12 col-md-12">
+                <input type="submit" class="btn btn-success btn-sm" value="Lưu Lại" />
+                <input type="submit" class="btn btn-default btn-sm" value="Nhập Lại"/>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+<script type="text/javascript">
+    $(function(){
+        $(".themvddd").on('click',function(){
+             $(this).parent().parent().parent().append("<div style='clear:both'></div><div class='row as-row-table item_vd'><a onclick='if(confirm(\"bạn có chắc?\")) $(this).parent().remove();' title='Xóa' class='btn btn-xs btn-success remove' href='javascript:void(0)'><i class='fa fa-remove'></i></a><div class='col-lg-2 col-md-2 margin-top-row '>Tiếng Nhật</div><div class='col-lg-10 col-md-10'><input name='vd_nhat[]' class='form-control input-small' placeholder='VD: 越南えつみなみに留学りゅうがくする' /></div><br /><br /><div class='col-lg-2 col-md-2 margin-top-row '>Tiếng Việt</small></div><div class='col-lg-10 col-md-10'><input name='vd_viet[]' class='form-control input-small' placeholder='VD: du học ở Việt Nam' /><input type='hidden' value='"+$(this).attr('data')+"' name='listvd[]' /></div></div>");
+        });
+        var count=1;
+        $("#themvd").click(function(){
+            count++;
+            $("#place_ex").append("<div class='row as-row-table item_vd'><a onclick='if(confirm(\"bạn có chắc?\")) $(this).parent().remove();' title='Xóa' class='btn btn-xs btn-success remove' href='javascript:void(0)'><i class='fa fa-remove'></i></a><div class='col-lg-4 col-md-4 margin-top-row '>Tiếng Nhật <small>( Dùng khi tìm bằng tiếng việt)</small> </div><div class='col-lg-8 col-md-8'><input name='nghia_nhat[]' class='form-control input-small' placeholder='VD: ベトナム' /></div><br /><br /><div class='col-lg-4 col-md-4 margin-top-row '>Tiếng Việt <small>( Dùng khi tìm bằng tiếng nhật)</small></div><div class='col-lg-8 col-md-8'><input name='nghia_viet[]' class='form-control input-small' placeholder='VD: Việt Nam' /><input type='hidden' value='"+count+"' name='listthem[]' /></div><div><h5 class=\"clearfix\" style=\"font-weight:bold;margin-top:50px;width:96%;margin-left:auto;margin-right:auto;border-bottom:1px solid #ddd;padding-bottom:5px\"><span class=\"pull-left\">Ví dụ cho nghĩa này <small>(có thể thêm sau)</small></span><span class=\"pull-right\"><a title=\"Thêm VD\" class=\"themvddd\" data='"+(count)+"' href=\"javascript:void(0)\" class=\"btn btn-xs btn-primary\"><i class=\"fa fa-plus\"></i></a></span></h5></div></div>");
+             $(".themvddd").off('click');
+            $(".themvddd").on('click',function(){
+                $(this).parent().parent().parent().append("<div style='clear:both'></div><div class='row as-row-table item_vd'><a onclick='if(confirm(\"bạn có chắc?\")) $(this).parent().remove();' title='Xóa' class='btn btn-xs btn-success remove' href='javascript:void(0)'><i class='fa fa-remove'></i></a><div class='col-lg-2 col-md-2 margin-top-row '>Tiếng Nhật</div><div class='col-lg-10 col-md-10'><input name='vd_nhat[]' class='form-control input-small' placeholder='VD: 越南えつみなみに留学りゅうがくする' /></div><br /><br /><div class='col-lg-2 col-md-2 margin-top-row '>Tiếng Việt</small></div><div class='col-lg-10 col-md-10'><input name='vd_viet[]' class='form-control input-small' placeholder='VD: du học ở Việt Nam' /><input type='hidden' value='"+$(this).attr('data')+"' name='listvd[]' /></div></div>");
+            });
+        });
+    });
+</script>
+<style type="text/css">
+    .item_vd{
+        width: 90%;
+        border:1px solid #ccc;
+        padding:10px 5px;
+        margin: 5px auto 15px auto !important;
+        position: relative;
+    }
+    .item_vd a.remove{
+        position: absolute;
+        top:-10px;
+        left: -10px;
+    }
+</style>

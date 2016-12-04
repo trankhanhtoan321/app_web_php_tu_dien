@@ -1,0 +1,172 @@
+                <script type="text/javascript">
+                    $(function(){
+                        $("#navbar_toggle ul li:eq(0)").addClass("active");
+                    });
+                </script>
+                <style type="text/css">
+                    .panel-green {
+                        border-color: #5cb85c;
+                    }
+                    .panel-green .panel-heading {
+                    border-color: #5cb85c;
+                    color: #fff;
+                    background-color: #5cb85c;
+                    }
+                    .huge {
+                    font-size: 40px;
+                    }
+                    .panel-yellow {
+border-color: #f0ad4e;
+}
+.panel-yellow .panel-heading {
+border-color: #f0ad4e;
+color: #fff;
+background-color: #f0ad4e;
+}
+                </style>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Trang Chủ      
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li class="active">
+                                <i class="fa fa-home"></i> Trang Chủ
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="row">
+                    <?php if($this->updatepass!=null){ ?>
+                        <div class="col-lg-12">
+                            <a class="ahover" href="<?php echo $this->baseUrl('user') ?>">
+                                <div class="alert alert-success">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                    <i class="fa fa-info-circle"></i> Mật khẩu hiển tại của bạn không an toàn. Vui lòng cập nhật lại mật khẩu.
+                                </div>
+                            </a>
+                        </div>
+                    <?php } ?>
+                </div>
+                <!-- /.row -->
+                <div class="row">
+                    <?php if($this->slchuacoaudio>0){ ?>
+                        <div class="col-lg-12">
+                            <a class="ahover" href="<?php echo $this->baseUrl('tu-vung?f=4') ?>">
+                                <div class="alert alert-info">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                    <i class="fa fa-info-circle"></i> Có <b><?php echo $this->slchuacoaudio ?></b> từ vựng chưa có audio
+                                </div>
+                            </a>
+                        </div>
+                    <?php } ?>
+                </div>
+                <!-- /.row -->
+                <!-- /.row -->
+                <div class="row">
+                    <?php if($this->slchuacovd>0){ ?>
+                        <div class="col-lg-12">
+                            <a class="ahover" href="<?php echo $this->baseUrl('ngu-phap?f=4') ?>">
+                                <div class="alert alert-danger">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                    <i class="fa fa-info-circle"></i> Có <b><?php echo $this->slchuacovd ?></b> ngữ pháp chưa có ví dụ
+                                </div>
+                            </a>
+                        </div>
+                    <?php } ?>
+                </div>
+                <!-- /.row -->
+
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-book fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge"><?php echo $this->sltv ?></div>
+                                        <div>Từ Vựng!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="<?php echo $this->baseUrl('tu-vung') ?>">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-html5 fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge"><?php echo $this->slht ?></div>
+                                        <div>Hán Tự!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="<?php echo $this->baseUrl() ?>han-tu">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-yellow">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-star fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge"><?php echo $this->slnp ?></div>
+                                        <div>Ngữ Pháp!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="<?php echo $this->baseUrl('ngu-phap') ?>">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-male fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge"><?php echo $this->slnv ?></div>
+                                        <div>Nhân Viên!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="<?php echo $this->baseUrl('nhan-vien') ?>">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    
+
+                </div>
+                <!-- /.row -->

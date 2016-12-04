@@ -1,0 +1,153 @@
+<script type="text/javascript" src="<?php echo $this->asset() ?>js/validate.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $("#navbar_toggle ul li:eq(3)").addClass("active");
+
+        $("form").kiemtra([
+            {
+                'name':'nguphap',
+                'trong':true
+            },
+            {
+                'name':'ynghia',
+                'trong':true
+            },
+            {
+                'name':'cautruc',
+                'trong':true
+            },
+            {
+                'name':'mieuta',
+                'trong':true
+            },
+            {
+                'name':'jlpt',
+                'select':true
+            }
+        ]);
+    });
+</script>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Thêm Ngữ Pháp Tiếng Nhật  
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i> <a href="<?php echo $this->baseUrl() ?>">Trang Chủ</a>
+            </li>
+            <li>
+                <i class="fa fa-star"></i> <a href="<?php echo $this->baseUrl() ?>ngu-phap">Ngữ pháp</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-plus"></i> Thêm Ngữ Pháp
+            </li>
+        </ol>
+    </div>
+    <div id="main-content">
+        <?php if($this->message!=null){ ?>
+            <div class="message">
+                <?php echo $this->message ?>
+            </div>
+        <?php } ?>
+        <form method="post" action="">
+            <div class="row as-row-table">
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Ngữ pháp: 
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <span class="red notnull">*</span>
+                    <input type="text" class="form-control input-small" name="nguphap" placeholder="VD ～に/へ " value="<?php echo ($this->data!=null)?$this->data['TIENG_NHAT']:'' ?>" />
+                </div>
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    JLPT:
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <span class="red notnull">*</span>
+                    <select name="jlpt" class="form-control noterroricon select-small">
+                        <option value="-1">- Chọn cấp độ JLPT -</option>
+                        <option value="N1">N1</option>
+                        <option value="N2">N2</option>
+                        <option value="N3">N3</option>
+                        <option value="N4">N4</option>
+                        <option value="N5">N5</option>
+                    </select>
+                </div>
+            </div> 
+            <div class="row as-row-table">
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Ý nghĩa: 
+                </div>
+                <div class="col-lg-10 col-md-10">
+                    <span class="red notnull">*</span>
+                    <input type="text" class="form-control input-small" name="ynghia" placeholder="VD Chỉ hướng, địa điểm, thời điểm" value="<?php echo ($this->data!=null)?$this->data['Y_NGHIA']:'' ?>" />
+                </div>
+            </div> 
+            <div class="row as-row-table">
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Cấu trúc: 
+                </div>
+                <div class="col-lg-10 col-md-10">
+                    <span class="red notnull">*</span>
+                    <input type="text" class="form-control input-small" name="cautruc" placeholder="VD N（時間又は場所）＋に/へ" value="<?php echo ($this->data!=null)?$this->data['CAU_TRUC']:'' ?>" />
+                </div>
+            </div>
+            <div class="row as-row-table">
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Miêu tả: 
+                </div>
+                <div class="col-lg-10 col-md-10">
+                    <span class="red notnull">*</span>
+                    <textarea class="form-control textarea-small" style="height:100px !important" name="mieuta" placeholder="VD Dùng để chỉ địa điểm. Dùng để chỉ thời điểm. Dùng để chỉ hướng đến ai."><?php echo ($this->data!=null)?$this->data['MIEU_TA']:'' ?></textarea>
+                </div>
+            </div> 
+            <div class="row as-row-table">
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Chú ý: 
+                </div>
+                <div class="col-lg-10 col-md-10">
+                    <span class="red notnull nottext"></span>
+                    <textarea class="form-control textarea-small" style="height:100px !important" name="chuy" placeholder="VD Khi muốn nói về thời điểm mà một hành động nào đó xảy ra, chúng ta thêm trợ từ「に」vào sau danh từ chỉ thời gian. Dùng「に」đối với những hành động diễn ra trong thời gian ngắn."><?php echo ($this->data!=null)?$this->data['CHU_Y']:'' ?></textarea>
+                </div>
+            </div> 
+            <div id="place_ex">
+                <div class="row as-row-table">
+                    <div class="col-lg-12 col-md-12 ">
+                        <h5 class="clearfix" style="font-weight:bold;border-bottom:1px solid #ddd;padding-bottom:5px">
+                            <span class="pull-left">Ví Dụ <small>(có thể thêm sau)</small></span>
+                            <span class="pull-right"><a title="Thêm VD" id="themvd" href="javascript:void(0)" class="btn btn-xs btn-primary"><i class="fa fa-plus"></i></a></span>
+                        </h5> 
+                    </div>
+                </div> 
+            </div>
+            <div class="row as-row-table text-right">
+                <div class="col-lg-12 col-md-12">
+                <input type="submit" class="btn btn-success btn-sm" value="Lưu Lại" />
+                <input type="reset" class="btn btn-default btn-sm" value="Nhập Lại"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        $("#themvd").click(function(){
+            $("#place_ex").append("<div class='row as-row-table item_vd'><a onclick='if(confirm(\"bạn có chắc?\")) $(this).parent().remove();' title='Xóa' class='btn btn-xs btn-success' href='javascript:void(0)'><i class='fa fa-remove'></i></a><div class='col-lg-2 col-md-2 margin-top-row '>Tiếng Nhật: </div><div class='col-lg-10 col-md-10'><input name='vd_nhat[]' class='form-control input-small' placeholder='VD: このプレゼントプレゼントを田中たなかさんに/へ渡わたしてください' /></div><br /><br /><div class='col-lg-2 col-md-2 margin-top-row '>Tiếng Việt: </div><div class='col-lg-10 col-md-10'><input name='vd_viet[]' class='form-control input-small' placeholder='VD: Xin hãy trao món quà này đến anh Tanaka.' /></div></div>");
+        });
+    });
+</script>
+<style type="text/css">
+    .item_vd{
+        width: 90%;
+        border:1px solid #ccc;
+        padding:10px 5px;
+        margin: 5px auto 15px auto !important;
+        position: relative;
+    }
+    .item_vd a{
+        position: absolute;
+        top:-10px;
+        left: -10px;
+    }
+</style>

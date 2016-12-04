@@ -1,0 +1,251 @@
+<script type="text/javascript" src="<?php echo $this->asset() ?>js/validate.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $("#frm1").kiemtra([
+            {
+                'name':'passwordcu',
+                'trong':true
+            },
+            {
+                'name':'passwordmoi',
+                'trong':true
+            }
+            ,
+            {
+                'name':'repasswordxn',
+                'sosanhdoituong':true,
+                'name2':'passwordmoi',
+                'message':'Nhập lại mật khẩu sai'
+            }
+        ]);
+        $("#frm2").kiemtra([
+            {
+                'name':'hoten',
+                'string':true
+            },
+            {
+                'name':'dienthoai',
+                'sodt':true
+            }
+        ]);
+    });
+</script>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Thông Tin Cá Nhân
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i> <a href="<?php echo $this->baseUrl() ?>">Trang Chủ</a>
+            </li>
+            <li>
+                <i class="fa fa-user"></i> Thông Tin Cá Nhân
+            </li>
+            <li class="active">
+                <i class="fa fa-bookmark"></i> <?php echo $this->layout->userinfo['HOTEN'] ?>
+            </li>
+        </ol>
+    </div>
+    <div id="main-content">
+        <?php if($this->message!=null){ ?>
+            <div class="message">
+                <?php echo $this->message ?>
+            </div>
+        <?php } ?>
+        <form action="" method="post" id="frm1">
+                        
+        <div class="border">
+            <div class="subheaders-group">      
+            <h2 class="subheader">
+            
+            ĐỔI MẬT KHẨU
+            </h2>
+            
+        <div class="form-field">
+            <label for="password1" class="cm-required cm-password">Mật khẩu Cũ:</label>
+            <input type="password" id="password1" name="passwordcu" size="32" maxlength="32" value="" class="input-text cm-autocomplete-off" autocomplete="off">
+            <span id="password11"></span>
+        </div>
+
+        <div class="form-field">
+            <label for="password1" class="cm-required cm-password">Mật khẩu Mới:</label>
+            <input type="password" id="password1" name="passwordmoi" size="32" maxlength="32" value="" class="input-text cm-autocomplete-off" autocomplete="off">
+            <span id="password11"></span>
+        </div>
+
+        <div class="form-field">
+            <label for="password2" class="cm-required cm-password">Xác nhận mật khẩu:</label>
+            <input type="password" id="password2" name="repasswordxn" size="32" maxlength="32" value="" class="input-text cm-autocomplete-off" autocomplete="off">
+        </div>
+        <div class="form-field">
+            <label for="password2" class="cm-required cm-password"></label>
+            <input type="submit" value="Lưu Lại" name="changepass" style="padding:5px 10px;cursor:pointer" />
+            <input type="reset" value="Nhập Lại" style="padding:5px 10px;cursor:pointer" />
+        </div>
+        </form>
+
+         <?php if($this->message2!=null){ ?>
+            <div class="message">
+                <?php echo $this->message2 ?>
+            </div>
+        <?php } ?>
+        <form action="" method="post" id="frm2">
+                        
+        <div class="border">
+            <div class="subheaders-group">      
+            <h2 class="subheader">
+            
+                THÔNG TIN CÁ NHÂN
+            </h2>
+            
+        <div class="form-field">
+            <label for="hoten" class="cm-required cm-password">Họ Tên:</label>
+            <input type="text" id="hoten" name="hoten" size="32" maxlength="32" value="<?php echo $this->data['HOTEN'] ?>" class="input-text cm-autocomplete-off" autocomplete="off">
+        </div>
+
+        <div class="form-field">
+            <label for="password1" class="cm-password">Giới Tính:</label>
+            <span>Nam: <input type="radio" value="1" name="gt" <?php if($this->data['GIOITINH']==1) echo 'checked="checked"' ?> /></span>
+            <span style="padding-left:10px">Nữ: <input <?php if($this->data['GIOITINH']==0) echo 'checked="checked"' ?> type="radio" value="0" name="gt" /></span>
+        </div>
+
+        <div class="form-field">
+            <label for="dienthoai" class="cm-required cm-password">Điện Thoại:</label>
+            <input type="text" id="dienthoai" name="dienthoai" size="32" maxlength="32" value="<?php echo $this->data['DIENTHOAI'] ?>" class="input-text cm-autocomplete-off" autocomplete="off">
+        </div>
+
+        <div class="form-field">
+            <label for="diachi" class="cm-password">Địa Chỉ:</label>
+            <input type="text" id="diachi" name="diachi" size="32" maxlength="32" value="<?php echo $this->data['DIACHI'] ?>" class="input-text cm-autocomplete-off" autocomplete="off">
+        </div>
+        <div class="form-field">
+            <label for="diachi" class="cm-password">Email:</label>
+            <span><?php echo $this->data['EMAIL'] ?></span>
+        </div>
+        <div class="form-field">
+            <label for="password2" class="cm-required cm-password"></label>
+            <input type="submit" value="Lưu Lại" name="changeprofile" style="padding:5px 10px;cursor:pointer" />
+            <input type="reset" value="Nhập Lại" style="padding:5px 10px;cursor:pointer" />
+        </div>
+        </form>
+        <?php if($this->message3!=null){ ?>
+            <div class="message">
+                <?php echo $this->message3 ?>
+            </div>
+        <?php } ?>
+        <form action="" method="post" id="frm3" enctype="multipart/form-data">
+                        
+        <div class="border">
+            <div class="subheaders-group">      
+            <h2 class="subheader">
+            
+                HÌNH ĐẠI DIỆN
+            </h2>
+            
+        <div class="form-field clearfix">
+            <label for="hoten" class="cm-password">Avatar:</label>
+            <img style="float:left" src="<?php echo $this->asset() ?>images/avatar/<?php echo $this->layout->userinfo['MANV'] ?>.png" width="75px" height="75px" />
+            <div style="float:left;margin-left:10px">
+                 <input type="file" name="avatar" />
+            </div>
+        </div>
+
+       
+        <div class="form-field">
+            <label for="password2" class="cm-required cm-password"></label>
+            <input type="submit" value="Lưu Lại" name="changeavatar" style="padding:5px 10px;cursor:pointer" />
+            <input type="reset" value="Nhập Lại" style="padding:5px 10px;cursor:pointer" />
+        </div>
+        </form>
+    </div>
+</div>
+
+<style type="text/css">
+    .subheader, .subheader-first-item {
+    color: #2d2e2e;
+    background: url('<?php echo $this->asset() ?>images/subheader_bg.gif') repeat-x bottom;
+    padding: 10px 0 5px 0;
+    font: bold 108% Arial, Helvetica, sans-serif;
+}
+.contentboxdk{
+    margin-left: 50px;
+}
+.form-field {
+margin: 6px 0;
+vertical-align: middle;
+}
+.form-field, .form-field * {
+text-align: left;
+}
+.form-field {
+clear: both;
+}
+.form-field label.cm-required {
+margin-right: 5px;
+width: 255px;
+}
+.form-field label.cm-required {
+background: url('<?php echo $this->asset() ?>images/required_mark.gif') no-repeat right 6px;
+}
+.form-field label {
+float: left;
+clear: left;
+text-align: left;
+width: 260px;
+padding-top: 1px;
+margin-left: 0px;
+}
+.form-field label {
+font: normal 92% Tahoma;
+}
+.form-field input {
+border: 1px solid #cdcdcd;
+}
+.input-text {
+width: 250px;
+}
+.input-text, .input-text-auto, .input-text-large, .input-text-medium, .input-text-short, .input-text-100, .input-textarea, .input-textarea-long, select {
+background-color: #FFFFFF;
+color: #2D2D2D;
+padding: 2px;
+vertical-align: middle;
+}
+button[disabled], html input[disabled] {
+cursor: default;
+}
+.disabled, select.disabled {
+background-color: #E0DFE3;
+}
+.title-extra a, .title-extra a:visited, .title-extra a:hover, .title-extra a:active {
+color: #7C8E8E;
+font: 75% Arial;
+}
+.center {
+text-align: center;
+}
+.buttons-container {
+padding: 5px 0 1px 0;
+}
+.buttons-container input[type="submit"] {
+background-color: #075ccd;
+height: 30px;
+padding: 18px 25px;
+margin-left: 3px;
+margin-top: 3px;
+font-size: 12px;
+text-align: center;
+border: 3px solid #fff;
+text-transform: uppercase;
+cursor: pointer;
+color: #fff;
+line-height: 0px;
+-webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+border-radius: 10px;
+font-weight: bold;
+}
+.form-field input[type='submit']:hover,.form-field input[type='reset']:hover{
+    background-color: #ddd;
+}
+</style>

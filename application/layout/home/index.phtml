@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <noscript>
+        <meta http-equiv="refresh" content="0; URL=<?php echo $this->baseUrl('nojavascript') ?>" />
+    </noscript>
+    <?php $this->title() ?>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="<?php echo $this->asset() ?>css/css.css" rel="stylesheet">
+   
+    <link href="<?php echo $this->asset() ?>css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="<?php echo $this->asset() ?>font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+     <!-- jQuery -->
+    <script src="<?php echo $this->asset() ?>js/jquery.js"></script>
+
+    
+
+    <!--[if lt IE 9]>
+        <script src="<?php echo $this->asset() ?>js/html5shiv.js"></script>
+        <script src="<?php echo $this->asset() ?>js/respond.min.js"></script>
+        <script type="text/javascript">
+                $(function(){
+                $("input[placeholder],textarea[placeholder]").each(function(){
+                    $(this).val($(this).attr("placeholder"));
+                    $(this).css("color","#999");
+                    $(this).focus(function(){
+                        if($(this).val()==$(this).attr("placeholder")){
+                            $(this).val("");
+                             $(this).css("color","#333");
+                         }
+                    });
+                    $(this).blur(function(){
+                        var th=$(this);
+                        setTimeout(function () {
+                        if(th.val()==""){
+                           th.val(th.attr("placeholder"));
+                            th.css("color","#999");
+                        }
+                    }, 100);
+                    });
+                });
+            });
+            </script>
+    <![endif]-->
+    <!-- Bootstrap Core JavaScript -->
+    <script src="<?php echo $this->asset() ?>js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+    $(function(){
+        $("#avatar_user,#avatar_big").error(function(){
+            $(this).attr("src",'<?php echo $this->asset() ?>images/avatar/none-avatar.png');
+        });
+        $("#checkAll").change(function () {
+            $(".checkboxitem").prop('checked', this.checked);
+            count(this.checked);
+        });
+        $(".checkboxitem").change(function(){
+            count(this.checked);
+        });
+        $(".sfilter").change(function(){
+            $(this).parent().submit();
+        });
+    });
+    function count(ck){
+        if(ck){
+               $(".group-button .disabled").removeClass("disabled");
+               $(".btn-count i").show().html($(".checkboxitem:checked").size());
+        }else{
+                if($(".checkboxitem:checked").size()==0){
+                    $(".btn-count i").fadeOut();
+                    $(".group-button .btn-count").addClass("disabled");
+                }else{
+                    $(".btn-count i").show().html($(".checkboxitem:checked").size());
+                }
+        }
+    }
+    function LoadJson(url,dt,callback) {
+            $.ajax({
+                    type: "POST",
+                    url: url,
+                    dataType: 'json',
+                    data:dt,
+                    beforeSend: function(){
+                    },
+                    success: callback,
+                    error: function (e, e2, e3) {
+                    }
+            });
+        }
+        var base_url='<?php echo $this->baseUrl() ?>';</script>
+</head>
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" id="navtop" role="navigation">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-4 hidden-xs">
+                        <a class="navbar-brand" href="<?php echo $this->baseUrl() ?>">Admin Control Panel</a>
+                    </div>
+                    <div class="hidden-lg hidden-md hidden-sm show-xs col-xs-2">
+                        <a class="navbar-brand" href="<?php echo $this->baseUrl() ?>">ACP</a>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-8 col-xs-8 text-right">
+                        <ul class="pull-right" id="menu_user">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img id="avatar_user" src="<?php echo $this->asset() ?>images/avatar/<?php echo $this->layout->userinfo['MANV'] ?>.png" width="35px" height="35px" /> </a>
+                                <ul class="dropdown-menu clearfix" style="width:210px">
+                                    <div class="pull-left" style="margin-left:5px;width:55px">
+                                        <img id="avatar_big" src="<?php echo $this->asset() ?>images/avatar/<?php echo $this->layout->userinfo['MANV'] ?>.png" width="50px" height="50px" />
+                                    </div>
+                                    <div class="pull-left" style="margin-left:5px;width:135px">
+                                        <div><b><i class="fa fa-user"></i> <?php echo $this->layout->userinfo['HOTEN'] ?></b>
+                                        </div><div class="divider"></div>
+                                        <p><a href="<?php echo $this->baseUrl('user') ?>"><i class="fa fa-fw fa-info-circle"></i> Hồ Sơ Cá Nhân</a></p>
+                                        <a href="<?php echo $this->baseUrl() ?>logout"><i class="fa fa-fw fa-power-off"></i> Đăng Xuất</a>
+                                    </div>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="hidden-lg hidden-md col-xs-2 col-sm-2">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                </div>
+        </nav>
+        <div id="page-wrapper" class="clearfix">
+            <div class="row" id="content">
+            <!--box left-->
+                <div class="col-lg-2 col-md-2 col-sm-4" id="box-left">
+                    <div class="collapse navbar-collapse navbar-ex1-collapse" id="navbar_toggle">
+                        <ul class="nav navbar-nav side-nav">
+                            <li>
+                                <a href="<?php echo $this->baseUrl() ?>"><i class="fa fa-fw fa-home"></i> Trang Chủ</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->baseUrl() ?>tu-vung"><i class="fa fa-fw fa-book"></i> Từ Vựng</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->baseUrl() ?>han-tu"><i class="fa fa-fw fa-html5"></i> Hán Tự</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->baseUrl() ?>ngu-phap"><i class="fa fa-fw fa-star"></i> Ngữ Pháp</a>
+                            </li>
+                            <?php if($this->layout->userinfo['LAADMIN']==1){ ?>
+                            <li>
+                                <a href="<?php echo $this->baseUrl() ?>nhan-vien"><i class="fa fa-fw fa-user"></i> Nhân Viên</a>
+                            </li>
+                            <?php } ?>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12" id="box-right">
+                    <?php echo $this->content() ?>
+                </div>
+            </div>
+        </div>
+            <!-- /.navbar-collapse -->
+    </div>
+</body>
+</html>

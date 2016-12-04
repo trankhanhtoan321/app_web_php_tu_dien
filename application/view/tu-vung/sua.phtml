@@ -1,0 +1,114 @@
+<script type="text/javascript" src="<?php echo $this->asset() ?>js/validate.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $("#navbar_toggle ul li:eq(1)").addClass("active");
+        $("#frm-them").kiemtra([
+            {
+                'name':'hiragama',
+                'trong':true
+            },
+            {
+                'name':'audio',
+                'file':true,
+                'typefile':'audio',
+                'notnull':false
+            }
+        ]);
+        $("#upload").click(function(){
+            $(this).parent().find(".file").click();
+        });
+        var base_url=window.location.origin+"<?php echo $this->baseUrl() ?>";
+        $(".file").change(function(){
+            if($(this).parent().find("input[name='audio_path']").val().indexOf("/upload/audio")==-1)
+            $(this).parent().find("input:text").val(base_url+"upload/audio/"+getTimeNow()+"."+$(this).val().split(".").pop());
+        });
+    });
+    function getTimeNow(){
+        var dt=new Date();
+        return dt.getDate()+""+(dt.getMonth()+1)+""+dt.getFullYear()+""+dt.getHours()+""+dt.getMinutes()+""+dt.getSeconds();    
+    }
+</script>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Sửa từ vựng
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i> <a href="<?php echo $this->baseUrl() ?>">Trang Chủ</a>
+            </li>
+            <li>
+                <i class="fa fa-book"></i> <a href='<?php echo $this->baseUrl() ?>tu-vung'>Từ Vựng</a>
+            </li>
+            <li>
+                <i class="fa fa-edit"></i> Sửa Từ Vựng
+            </li>
+            <li class='active'>
+                <i class='fa fa-bookmark'></i> <?php echo $this->data["HAN_TU"] ?>
+            </li>
+        </ol>
+    </div>
+    <div id="main-content">
+
+        <?php if($this->message!=null){ ?>
+            <div class="message">
+                <?php echo $this->message ?>
+            </div>
+        <?php } ?>
+
+        <form method="post" action="" id="frm-them" enctype="multipart/form-data"> 
+            <div class="row as-row-table">
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Chữ Romanji:
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <span class="red notnull nottext"></span>
+                    <input type="text" class="form-control input-small" placeholder="VD" name="romanji" value="<?php echo $this->data['TIENG_ROMANJI'] ?>" />
+                </div>
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Hán Tự:
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <span class="red notnull">*</span>
+                    <input type="text" class="form-control input-small" placeholder="VD 越南" name="hiragama" value="<?php echo $this->data['HAN_TU'] ?>" />
+                </div>
+            </div>
+            <div class="row as-row-table">
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Audio:
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <span class="red notnull nottext"></span>
+                    <div class="addon addon-right">
+                        <input type="text" id="input" name="audio_path" value="<?php echo $this->data['AUDIO'] ?>" class="form-control input-small noterroricon" placeholder="Upload hoặc lấy url của trang khác" /><i class="fa fa-upload addon-icon" id="upload" title="upload audio"></i>
+                        <input type="file" name="audio" class="file" />
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Nghĩa Hán Tự:
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <span class="red notnull nottext"></span>
+                    <input type="text" class="form-control input-small" placeholder="VD" name="hantu" value="<?php echo $this->data['NGHIA_HANTU'] ?>" />
+                </div>
+            </div>
+            <div class="row as-row-table">
+                <div class="col-lg-2 col-md-2 margin-top-row">
+                    Ghi Chú:
+                </div>
+                <div class="col-lg-10 col-md-10">
+                    <span class="red notnull nottext"></span>
+                    <textarea class="form-control textarea-small" name="ghichu" placeholder="Ghi chú về từ vựng này"><?php echo $this->data['GHI_CHU'] ?></textarea>
+                </div>
+            </div>
+            <div class="row as-row-table text-right">
+                <div class="col-lg-12 col-md-12">
+                <input type="submit" class="btn btn-success btn-sm" value="Lưu Lại" />
+                <input type="button" class="btn btn-default btn-sm" onclick="window.location.reload()" value="Hủy Bỏ"/>
+                </div>
+            </div>
+            <input type="hidden" name="audio_cu" value="<?php echo $this->data['AUDIO'] ?>">
+        </form>
+    </div>
+
+</div>

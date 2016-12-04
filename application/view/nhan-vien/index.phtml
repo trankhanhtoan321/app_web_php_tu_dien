@@ -1,0 +1,122 @@
+<script type="text/javascript">
+    $(function(){
+        $("#navbar_toggle ul li:eq(4)").addClass("active");
+    });
+</script>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Danh Sách Nhân Viên
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i> <a href="<?php echo $this->baseUrl() ?>">Trang Chủ</a>
+            </li>
+            <li>
+                <i class="fa fa-user"></i> Nhân Viên
+            </li>
+        </ol>
+    </div>
+    <div id="main-content">
+        <?php if($this->message!=null){ ?>
+            <div class="message">
+                <?php echo $this->message ?>
+            </div>
+        <?php } ?>
+        <div class="row" style="margin-left:-1.5%">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="margin-bottom:5px">
+                <div class="group-button clearfix">
+                    <a href="<?php echo $this->baseUrl() ?>nhan-vien/them" class="pull-left btn btn-primary btn-sm">Thêm mới</a>
+                    <div class="btn btn-primary btn-sm btn-count disabled" style="margin-left:5px" id="xoa">Xóa <i></i></div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 col-xs-marg text-right clearfix">
+                <form method="get" action="" class="pull-right">
+                    <div class="frmsearch clearfix">
+                        <input title="" type="text" class="textboxsearch" value="<?php if(isset($_GET['q'])) echo $_GET['q']; ?>"  placeholder="Nhập nội dung tìm kiếm..." name="q" />
+                        <input type="submit" class="buttonsearch" value="" />
+                    </div>
+                    <?php if(isset($_GET["sort"])){ ?>
+                        <input type="hidden" name="sort" value="<?php echo $_GET["sort"] ?>" />
+                    <?php } ?>
+                </form>
+                 
+                
+            </div>
+        </div>
+        <br />
+        <div class="table-responsive"> 
+            <form method="post" action="" id="frm_table">
+                <table class="table table-bordered table-hover">
+                    <tr>
+                        <th><input id="checkAll" type="checkbox" /></th>
+                        <th>Họ Tên</th>
+                        <th>GT</th>
+                        <th>Số ĐT</th>
+                        <th>Địa Chỉ</th>
+                        <th>Email</th>
+                        <th>Reset Pass</th>
+                        <th>Chức Vụ</th>
+                        <th>Trang Thái</th>
+                        <th>Edit</th>
+                    </tr>
+                    <?php foreach ($this->data as $item) {
+                       ?>
+                       <tr>
+                            <td align="center"><input type="checkbox" value="<?php echo $item['MANV'].'~'.$item['HOTEN'] ?>" class='checkboxitem' name='item[]' /></td>
+                            <td><?php echo $item['HOTEN'] ?></td>
+                            <td align="center"><?php echo ($item['GIOITINH']==1)?'Nam':'Nữ' ?></td>
+                            <td>
+                                <?php echo $item['DIENTHOAI'] ?>
+                            </td>
+                            <td>
+                                <?php echo $item['DIACHI'] ?>
+                            </td>
+                            <td>
+                                <?php echo $item['EMAIL'] ?>
+                            </td>
+                            <td align="center">
+                                <a class="icon" href="<?php echo $this->baseUrl() ?>nhan-vien?id=<?php echo $item['MANV'] ?>" onclick="return confirm('Bạn có chắc muốn reset lại mật khẩu cho nhân viên này?. Mật khẩu sau khi reset là 123456');">
+                                    <i class="fa fa-refresh"></i>
+                                </a>
+                            </td>
+                            <td align="center"><?php echo ($item['LAADMIN']==1)?'Admin':'Nhân Viên' ?></td>
+                            <td align="center">
+                                <a class="icon" href="<?php echo $this->baseUrl() ?>nhan-vien?idk=<?php echo $item['MANV'] ?>" onclick="return confirm('Bạn có chắc?');">
+                                    <?php if($item['KHOA']==0){ ?>
+                                    <i class="fa fa-unlock" title="Đang hoạt động"></i>
+                                    <?php }else{ ?>
+                                    <i class="fa fa-lock" title="Đang khóa"></i>
+                                    <?php } ?>
+                                </a>
+                            </td>
+                            <td align="center">
+                                <a href='<?php echo $this->baseUrl() ?>nhan-vien/sua?id=<?php echo $item['MANV'] ?>' class="icon"><i class="fa fa-edit"></i></a>
+                            </td>
+                       </tr>
+                    <?php } ?>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        $(".btn-count").click(function(){
+            var sl=$(".checkboxitem:checked").size();
+            if(sl<1){
+                alert("Vui lòng chọn ít nhất 1 hán tự để tiếp tục");
+                return false;
+            }
+            if(confirm("Bạn có chắc muốn xóa "+sl+" nhân viên được chọn?")){
+               $("#frm_table").submit(); 
+            }
+        });
+         var sort="<?php if(isset($_GET['s'])) echo $_GET['s']; else echo '0' ?>";
+
+        $("select[name='s']").val(sort);
+        var filter="<?php if(isset($_GET['f'])) echo $_GET['f']; else echo '0' ?>";
+
+        $("select[name='f']").val(filter);
+    })
+</script>
